@@ -11,16 +11,17 @@ def cli():
     pass
 
 @click.command()
-def initdb():
-    
-    click.echo('Initialized the database')
+def ls(): # list scripts
+    click.echo('List scripts')
+    r = requests.get("http://localhost:5000/api/v1/resources/scripts/all")
+    click.echo(r.content)
 
 @click.command()
-def dropdb():
-    click.echo('Dropped the database')
+def run(): # run script; needs to take an argument of script id or script name
+    click.echo('Run script')
 
-cli.add_command(initdb)
-cli.add_command(dropdb)
+cli.add_command(ls)
+cli.add_command(run)
 cli.add_command(hello)
 
 if __name__ == '__main__':
