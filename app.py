@@ -27,7 +27,7 @@ def hello_world():
 
 @app.route('/apps/launch/<exe_name>', methods=['POST'])
 def app_launch(exe_name):
-    # Launch an application that's in PATH
+    """Launch an application that's in PATH"""
     os.system('start ' + escape(exe_name))
     return f"Launching {exe_name}"
 
@@ -38,9 +38,11 @@ def scripts_all():
 
 @app.route('/api/v1/resources/scripts', methods=['GET'])
 def scripts_id():
-    # Check if an ID was provided as part of the URL.
-    # If ID is provided, assign it to a variable.
-    # If no ID is provided, display an error in the browser.
+    """
+    Check if an ID was provided as part of the URL.
+    If ID is provided, assign it to a variable.
+    If no ID is provided, display an error in the browser.
+    """
     if 'id' in request.args:
         id = int(request.args['id'])
     elif 'fart' in request.args:
@@ -60,3 +62,10 @@ def scripts_id():
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     return jsonify(results)
+
+@app.route('/api/v1/authenticate', methods=['POST'])
+def authenticate():
+    """
+    Authenticate user to see if they're allowed to make further requests.
+    """
+    return jsonify(None)
