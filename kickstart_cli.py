@@ -1,5 +1,6 @@
 import click
 import requests
+import json
 
 @click.command()
 def hello():
@@ -16,8 +17,17 @@ def ls():
     This lists existing scripts in the repo/library.
     """
     click.echo('List scripts')
-    r = requests.get("http://localhost:5000/api/v1/resources/scripts/all")
-    click.echo(r.content)
+    try:
+        r = requests.get("http://localhost:5000/api/v1/resources/scripts/all")
+    except requests.exceptions.ConnectionError as e:
+        click.echo(f"ConnectionError: {e}")
+    else:
+        # Format the JSON response in a user-friendly way
+        script_library = json.loads(r.content)
+
+        for script in script_library:
+            print(f"{script['id']}\t{script['name']}\t{script['language']}")
+        click.echo()
 
 @click.command()
 @click.option('--name', help='Name of the script or *.exe')
@@ -37,8 +47,13 @@ def auth():
     Authenticate to the kickstart server.
     """
     click.echo('Authenticating to the kickstart server.')
-    r = requests.post("http://localhost:5000/api/v1/authenticate")
-    click.echo(r.content)
+    try:
+        r = requests.post("http://localhost:5000/api/v1/authenticate")
+    except requests.exceptions.ConnectionError as e:
+        click.echo(f"ConnectionError: {e}")
+    else:
+        click.echo(r.content)
+
 
 @click.command()
 def template_command():
