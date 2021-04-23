@@ -1,0 +1,14 @@
+[
+    {
+        "id": 0,
+        "name": "unlock-adaccount.ps1",
+        "language": "powershell",
+        "description": "Unlock a user's Active Directory account"
+    },
+    {
+        "id": 1,
+        "name": "restart-vm.ps1",
+        "language": "powershell",
+        "description": "Restart a single virtual machine"
+    }
+]

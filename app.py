@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify
 from markupsafe import escape
-import os
+import os, json
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-scripts = [
-    {'id': 0,
-    'name': 'unlock-adaccount.ps1',
-    'language': 'powershell',
-    'description': 'Unlock a user\'s Active Directory account'},
-    {'id': 1,
-    'name': 'restart-vm.ps1',
-    'language': 'powershell',
-    'description': 'Restart a single virtual machine'}
-]
+script_library_path = "scripts.json"
+try:
+    with open(script_library_path) as script_library_file:
+        scripts = json.load(script_library_file)
+except FileNotFoundError:
+    print(f"'script_library_file' not found at path {script_library_path}.\nLoading default library.")
+    scripts = [{"id": -1,
+                "name": "default-library.ps1",
+                "language": "powershell",
+                "description": "The library failed to load. This is the fallback info."}]
 
 
 @app.route('/', methods=['GET'])

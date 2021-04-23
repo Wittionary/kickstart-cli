@@ -30,13 +30,19 @@ def ls():
         click.echo()
 
 @click.command()
-@click.option('--name', help='Name of the script or *.exe')
-@click.option('--id', help='Id of the script')
+@click.option('--name', help='Name of the script or *.exe', type=str)
+@click.option('--id', help='Id of the script', type=int)
 def run(name, id):
     """
     This runs an existing script in the repo/library.
     """
-    click.echo(f'Running {name}')
+    if id != None:
+        click.echo(f'Running script id {id}')
+    elif id == None and name != None:
+        click.echo(f'Running {name}')
+    else:
+        click.echo("No name or id entered")
+
     # write API endpoint to run a script by name or id
     # before that it needs to search to see if it exists so search function (by name or id) needs to exist too
 
