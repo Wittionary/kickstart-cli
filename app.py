@@ -69,3 +69,6 @@ def authenticate():
     Authenticate user to see if they're allowed to make further requests.
     """
     return jsonify(None)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
