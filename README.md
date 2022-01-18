@@ -1,4 +1,4 @@
-# kickstart-api
+# kickstart-cli
 Start pre-defined scripts and programs on your home infrastructure via CLI.
 
 Get started with
