@@ -1,11 +1,28 @@
 import click
 import requests
 import json
+server = "0.0.0.0"
 
 @click.command()
 def hello():
-    r = requests.get("http://localhost:5000/hello")
+    r = requests.get(f"http://{server}:5000/hello")
     click.echo(r.content)
+
+@click.command()
+def config():
+    """
+    Configure kickstart to function as desired
+    """
+    try:
+        with open("config.json") as json_data_file:
+            config = json.load(json_data_file)
+    except FileNotFoundError:
+        print("Config file not found.")
+        return
+
+    server = config['server']
+    print(f"Server is '{server}'")
+    click.echo()
 
 @click.group()
 def cli():
@@ -18,7 +35,7 @@ def ls():
     """
     click.echo('List scripts')
     try:
-        r = requests.get("http://localhost:5000/api/v1/resources/scripts/all")
+        r = requests.get(f"http://{server}:5000/api/v1/resources/scripts/all")
     except requests.exceptions.ConnectionError as e:
         click.echo(f"ConnectionError: {e}")
     else:
@@ -54,7 +71,7 @@ def auth():
     """
     click.echo('Authenticating to the kickstart server.')
     try:
-        r = requests.post("http://localhost:5000/api/v1/authenticate")
+        r = requests.post(f"http://{server}:5000/api/v1/authenticate")
     except requests.exceptions.ConnectionError as e:
         click.echo(f"ConnectionError: {e}")
     else:
